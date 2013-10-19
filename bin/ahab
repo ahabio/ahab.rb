@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+puts "ahab doesn't do anything yet"
+exit 1
