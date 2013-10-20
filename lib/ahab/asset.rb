@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'uri'
 require 'ahab'
 
@@ -23,11 +24,14 @@ module Ahab
 
   class Asset
 
-    attr_reader :filename, :content, :status
+    attr_reader :filename, :full_path, :status
 
     def initialize(hash)
       @uri = parse_uri(hash['url'])
       @filename = hash.fetch('filename') { infer_filename(@uri) }
+      # TODO: inject this:
+      @destination_directory = 'vendor/assets'
+      @full_path = File.join(@destination_directory, @filename)
       @status = :unfetched
     end
 
@@ -35,8 +39,9 @@ module Ahab
       @uri.to_s
     end
 
-    def content=(content)
-      @content = content
+    def write!(content)
+      FileUtils.mkdir_p @destination_directory
+      File.write @full_path, content
       @status = :fetched
     end
 
@@ -49,6 +54,11 @@ module Ahab
     end
 
     private
+
+    def destination_directory
+      # todo: pass this in from the configuration
+      'vendor/assets'
+    end
 
     def parse_uri(url)
       raise NoAssetURL.new(self) unless url

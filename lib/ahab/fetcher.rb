@@ -1,4 +1,3 @@
-require 'fileutils'
 require 'typhoeus'
 require 'ahab'
 
@@ -31,8 +30,7 @@ module Ahab
         Typhoeus::Request.new(asset.url).tap do |request|
           request.on_complete do |response|
             if response.success?
-              asset.content = response.body
-              write_asset asset
+              asset.write! response.body
             else
               asset.error!
             end
@@ -41,15 +39,6 @@ module Ahab
           end
         end
       end
-    end
-
-    def write_asset(asset)
-      FileUtils.mkdir_p asset_dir
-      File.write File.join(asset_dir, asset.filename), asset.content
-    end
-
-    def asset_dir
-      'vendor/assets'
     end
 
   end
