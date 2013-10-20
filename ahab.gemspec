@@ -14,9 +14,12 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
+  s.add_runtime_dependency 'multi_json'
+
   s.add_development_dependency 'cucumber'
   s.add_development_dependency 'aruba'
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'webmock'
 
   s.files        = Dir.glob("{bin,lib}/**/*") + %w(README.md HISTORY.md LICENSE)
   s.test_files   = Dir.glob("features/**/*")

@@ -17,7 +17,7 @@ Feature: AHAB Command-Line Interface
     Then the exit status should be 0
     And the output should contain "Fetched 0 assets"
 
-  Scenario: Fetch asset via URL; interpret filename
+  Scenario: Fetch asset via URL; infer filename
     Given a file named "ahab.json" with:
     """
     { "assets": [ { "url": "http://example.com/my/asset.txt" } ] }
@@ -32,6 +32,7 @@ Feature: AHAB Command-Line Interface
     """
     content from URL
     """
+    And the output should contain "Fetched 1 asset"
 
   Scenario: Fetch asset via URL; specify filename
     Given a file named "ahab.json" with:
@@ -55,15 +56,16 @@ Feature: AHAB Command-Line Interface
     """
     content from URL
     """
+    And the output should contain "Fetched 1 asset"
 
-  Scenario: Fetch asset via URL; cannot interpret filename
+  Scenario: Fetch asset via URL; cannot infer filename
     Given a file named "ahab.json" with:
     """
     { "assets": [ { "url": "http://example.com" } ] }
     """
     When I run `ahab fetch`
     Then the exit status should be 1
-    And the output should contain "Error: could not interpret filename from http://example.com"
+    And the output should contain "Cannot infer filename from http://example.com"
 
   Scenario: Error fetching from URL
     Given a file named "ahab.json" with:
@@ -73,4 +75,4 @@ Feature: AHAB Command-Line Interface
     And the URL "http://example.com/my/asset.txt" returns a 404 error
     When I run `ahab fetch`
     Then the exit status should be 1
-    And the output should contain "Error fetching from http://example.com/my/asset.txt"
+    And the output should contain "Error fetching http://example.com/my/asset.txt"

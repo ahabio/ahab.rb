@@ -5,9 +5,9 @@ Given /^the file "(.+)" does not exist$/ do |file_name|
 end
 
 Given /^the URL "(.+)" returns:$/ do |url, content|
-  pending
+  stub_request(:get, url).with(body: content)
 end
 
 Given /^the URL "(.+)" returns a 404 error$/ do |url|
-  pending
+  stub_request(:get, url).with(status: 404)
 end
