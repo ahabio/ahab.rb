@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_runtime_dependency 'multi_json'
+  s.add_runtime_dependency 'typhoeus'
 
   s.add_development_dependency 'cucumber'
   s.add_development_dependency 'aruba'
